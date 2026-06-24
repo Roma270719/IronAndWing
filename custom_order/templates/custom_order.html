@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .book_section textarea.form-control {
+    resize: none !important;
+    height: 120px !important;
+  }
+</style>
+  <section class="book_section layout_padding">
+    <div class="container">
+      <div class="heading_container mb-4">
+        <h2>Book a Custom Order</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form_container">
+            <form action="{% url 'custom_order_index' %}" method="post">
+                {% csrf_token %}
+              <div>
+                  {{ form.lord_name }}
+              </div>
+              <div>
+                  {{ form.shield_type }}
+              </div>
+              <div>
+                  {{ form.heraldry_description }}
+              </div>
+              <div class="btn_box">
+                <button type="submit">
+                    BOOK NOW
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="map_container">
+            <div id="googleMap"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

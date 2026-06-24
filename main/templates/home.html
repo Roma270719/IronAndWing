@@ -1,0 +1,180 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- slider section -->
+    <section class="slider_section ">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for category in categories %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-7 col-lg-6 ">
+                  <div class="detail-box">
+                    <h1>
+                      {{ category.name }}
+                    </h1>
+                    <p>
+                      {{ category.description }}
+                    </p>
+                    <div class="btn-box">
+                      <a href="{% url 'catalog_index' %}?category={{ category.slug }}" class="btn1">
+                        Explore More
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            {% endfor %}
+        </div>
+        <div class="container" id="carousel-controls-container">
+          <ol class="carousel-indicators">
+              {% for category in categories %}
+            <li data-target="#customCarousel1" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+              {% endfor %}
+          </ol>
+        </div>
+      </div>
+
+    </section>
+    <!-- end slider section -->
+
+  <!-- offer section -->
+
+  <section class="offer_section layout_padding-bottom">
+    <div class="offer_container">
+      <div class="container ">
+        <div class="row">
+            {% for product in special_products %}
+          <div class="col-md-6  ">
+            <div class="box ">
+              <div class="img-box">
+                  {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                  {% else %}
+                  <img src="images/o1.jpg" alt="Default Image">
+                  {% endif %}
+              </div>
+              <div class="detail-box">
+                <h5>
+                  {{ product.name }}
+                </h5>
+                <h6>
+                  <span>Special</span> Offer
+                </h6>
+                <a href="{% url 'catalog_index' %}?category={{ product.category.slug }}">
+                  Buy Now
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                </svg>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end offer section -->
+
+  <!-- about section -->
+
+  <section id="guild-about-section" class="guild_about_section" style="background-color: #222831 !important; padding: 0 !important; margin: 0 !important; overflow: hidden !important; width: 100% !important; max-width: 100% !important; display: block !important;">
+  <div style="padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important;">
+
+    <div style="margin: 0 !important; display: flex !important; min-height: 100vh !important; align-items: stretch !important; flex-wrap: wrap !important; width: 100% !important;">
+
+      <div style="padding: 0 !important; margin: 0 !important; flex: 0 0 60% !important; max-width: 60% !important; position: relative !important; background-color: #171a1f !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important;">
+
+        <div style="position: absolute !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; background: linear-gradient(to right, #171a1f 0%, rgba(34, 40, 49, 0) 20%, rgba(34, 40, 49, 0) 80%, #222831 100%) !important; z-index: 2 !important; pointer-events: none !important;"></div>
+
+        <img src="{% static 'images/about-img.png' %}" alt="Forge" style="width: auto !important; height: 100% !important; max-width: 100% !important; object-fit: contain !important; display: block !important; z-index: 1 !important;">
+
+      </div>
+
+      <div style="padding: 60px 4% !important; margin: 0 !important; flex: 0 0 40% !important; max-width: 40% !important; color: #ffffff !important; display: flex !important; flex-direction: column !important; justify-content: center !important; background-color: #222831 !important; box-sizing: border-box !important;">
+        <div style="max-width: 440px !important; margin: 0 auto !important;">
+
+          <div class="heading_container">
+            <h2 style="font-family: 'Dancing Script', cursive; font-size: 2.8rem; margin-bottom: 25px; color: #ffffff !important;">
+              Where Legends Are Forged
+            </h2>
+          </div>
+
+          <div style="font-size: 1rem; line-height: 1.7; color: #cbd5e1 !important; margin-bottom: 35px !important; text-align: justify !important;">
+            {{ about_info.text|linebreaks }}
+          </div>
+
+          <div>
+            <a href="{% url 'catalog_index' %}" style="background-color: #ffbe33 !important; color: #ffffff !important; padding: 12px 50px !important; border-radius: 45px !important; text-decoration: none !important; display: inline-block !important; font-weight: 600 !important; box-shadow: 0 4px 15px rgba(255,190,51,0.2) !important;">
+              Treasury
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+  <!-- end about section -->
+
+  <!-- book section -->
+  <section class="book_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <h2>
+          Contact the Guild
+        </h2>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form_container">
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+              <div style="margin-bottom: 15px;">
+                  {{ field }}
+              </div>
+                {% endfor %}
+              <div class="btn_box">
+                <button>
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="map_container ">
+            <div id="googleMap"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end book section -->
+
+    <script>
+  window.addEventListener('load', function() {
+    if (window.location.hash === '#about-section') {
+      var target = document.getElementById('about-section');
+      if (target) {
+        setTimeout(function() {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }, 100);
+      }
+    }
+  });
+</script>
+{% endblock %}

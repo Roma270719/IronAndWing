@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% block content %}
+<section class="layout_padding text-white bg-dark" style="min-height: 80vh;">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 p-5 rounded shadow" style="background-color: #222831 !important; border: 1px solid #343a40;">
+                <h3 class="font-weight-bold mb-4 text-center" style="color: #ffbe33;">
+                    <i class="fa fa-truck-loading mr-2"></i> Dispatch Weapon Caravan
+                </h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group mb-4">
+                            <label class="font-weight-bold small text-warning mb-2">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-warning btn-block font-weight-bold text-white mt-4" style="background-color: #ffbe33; border: none; border-radius: 30px; padding: 10px 0; transition: 0.3s;">
+                        CONFIRM & SEND CARAVAN
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
