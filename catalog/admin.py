@@ -14,13 +14,13 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(GuildProduct)
 class GuildProductAdmin(admin.ModelAdmin):
-    list_display = ('photo_tag','category', 'name', 'price', 'stock', 'stock_change', 'material_or_element', 'is_special')
+    list_display = ('photo_tag','category', 'name', 'price', 'stock', 'stock_change', 'material_or_element', 'is_special', 'discount_price')
     list_filter = ('category', 'is_special', 'material_or_element')
     search_fields = ('name', 'description')
     prepopulated_fields = {'slug': ('name',)}
     readonly_fields = ('stock', )
-    fields = ('name', 'slug', 'category', 'price', 'description', 'image', 'material_or_element', 'stock', 'stock_change')
-    list_editable = ('category', 'name', 'price', 'stock_change')
+    fields = ('name', 'slug', 'category', 'price', 'description', 'image', 'material_or_element', 'stock', 'stock_change', 'is_special', 'discount_price')
+    list_editable = ('category', 'name', 'price', 'stock_change', 'is_special', 'discount_price')
 
     def changelist_view(self, request, extra_context=None):
         if request.method == 'POST' and '_save' in request.POST:

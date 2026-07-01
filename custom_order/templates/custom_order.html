@@ -1,16 +1,22 @@
 {% extends 'index.html' %}
 {% load static %}
-{% block content %}
+
 <style>
   .book_section textarea.form-control {
     resize: none !important;
     height: 120px !important;
   }
 </style>
-  <section class="book_section layout_padding">
-    <div class="container">
+
+{% block hero_content %}
+
+  <section class="book_section layout_padding" style="position: relative; z-index: 1; width: 100%; display: flex; align-items: center; min-height: 100vh; overflow: hidden;">
+
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 0; pointer-events: none;"></div>
+
+    <div class="container" style="position: relative; z-index: 1;">
       <div class="heading_container mb-4">
-        <h2>Book a Custom Order</h2>
+        <h2 style="color: #ffffff;">Book a Custom Order</h2>
       </div>
       <div class="row">
         <div class="col-md-6">

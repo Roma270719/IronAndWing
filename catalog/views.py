@@ -47,6 +47,18 @@ def add_to_cart(request, product_id):
     return redirect(request.META.get('HTTP_REFERER', 'catalog_index'))
 
 
+def remove_from_cart(request, product_id):
+    cart = request.session.get('cart', {})
+    product_id_str = str(product_id)
+
+    if product_id_str in cart:
+        del cart[product_id_str]
+        request.session['cart'] = cart
+        request.session.modified = True
+
+    return redirect(request.META.get('HTTP_REFERER', 'catalog_index'))
+
+
 def product_detail(request, slug):
     product = get_object_or_404(GuildProduct, slug=slug)
     reviews = BattleReview.objects.filter(product=product)

@@ -1,7 +1,8 @@
 {% extends 'index.html' %}
 {% load static %}
+{% block hero_class %}sub_page{% endblock %}
 {% block content %}
-<section class="book_section layout_padding">
+<section class="book_section layout_padding profile_section bg-dark text-white" style="min-height: 80vh;">
     <div class="container">
         <div class="heading_container mb-5">
             <h2>Lord's Stronghold</h2>
@@ -9,18 +10,18 @@
         </div>
         <div class="row">
             <div class="col-md-4 mb-4">
-                <div class="card bg-light border-0 shadow-sm" style="border-radius: 10px;">
+                <div class="card guild_card" style="border-radius: 10px;">
                     <div class="card-body text-center p-4">
                         <div class="mb-3">
                             <i class="fa fa-user-shield text-warning" style="font-size: 4rem;"></i>
                         </div>
                         <h4 class="font-weight-bold mb-1">{{ user.username }}</h4>
-                        <p class="small text-muted mb-3">{{ user.email }}</p>
+                        <p class="small mb-3" style="color: rgba(255,255,255,0.6);">{{ user.email }}</p>
                         <span class="badge badge-warning px-3 py-2" style="font-size: 0.85rem; border-radius: 20px; background-color: #ffbe33; color: white;">
                             Guild Member
                         </span>
-                        <hr class="my-4">
-                        <div class="text-left small text-muted">
+                        <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+                        <div class="text-left small" style="color: rgba(255,255,255,0.7);">
                             <p class="mb-2"><strong>Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
                             <p class="mb-0"><strong>Status:</strong> Active Alliance</p>
                         </div>
@@ -37,13 +38,13 @@
             </div>
 
             <div class="col-md-8">
-                <div class="card border-0 shadow-sm mb-4" style="border-radius: 10px;">
+                <div class="card guild_card mb-4">
                     <div class="card-body p-4">
                         <h4 class="font-weight-bold mb-4"><i class="fa fa-shield-alt text-warning mr-2"></i>Custom Shield Orders</h4>
                         {% if shield_orders %}
                             <div class="table-responsive">
-                                <table class="table table-hover table-striped">
-                                    <thead style="background-color: #222831; color: #ffffff;">
+                                <table class="table table-hover">
+                                    <thead style="background-color: #171a1f; color: #ffffff;">
                                         <tr>
                                             <th>Order ID</th>
                                             <th>Shield Details</th>
@@ -70,8 +71,8 @@
                                 </table>
                             </div>
                         {% else %}
-                            <div class="text-center text-muted py-4" style="border: 2px dashed #e9ecef; border-radius: 8px;">
-                                <i class="fa fa-hammer mb-2" style="font-size: 2rem; color: #dee2e6;"></i>
+                            <div class="text-center py-4 guild_card-empty" style="border-radius: 8px;">
+                                <i class="fa fa-hammer mb-2" style="font-size: 2rem;"></i>
                                 <h6>No custom shields in the forge</h6>
                                 <a href="{% url 'custom_order_index' %}" class="btn btn-warning btn-sm mt-2 text-white font-weight-bold" style="border-radius: 5px; background-color: #ffbe33; border: none;">
                                     ORDER CUSTOM SHIELD
@@ -81,13 +82,13 @@
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm" style="border-radius: 10px;">
+                <div class="card guild_card">
                     <div class="card-body p-4">
                         <h4 class="font-weight-bold mb-4"><i class="fa fa-caravan text-warning mr-2"></i>Weapon Supply Caravans</h4>
                         {% if supply_orders %}
                             <div class="table-responsive">
-                                <table class="table table-hover table-striped">
-                                    <thead style="background-color: #222831; color: #ffffff;">
+                                <table class="table table-hover">
+                                    <thead style="background-color: #171a1f; color: #ffffff;">
                                         <tr>
                                             <th>Product</th>
                                             <th>Qty</th>
@@ -116,8 +117,8 @@
                                 </table>
                             </div>
                         {% else %}
-                            <div class="text-center text-muted py-4" style="border: 2px dashed #e9ecef; border-radius: 8px;">
-                                <i class="fa fa-coins mb-2" style="font-size: 2rem; color: #dee2e6;"></i>
+                            <div class="text-center py-4 guild_card-empty" style="border-radius: 8px;">
+                                <i class="fa fa-coins mb-2" style="font-size: 2rem;"></i>
                                 <h6>No weapon caravans heading to your castle</h6>
                                 <a href="{% url 'catalog_index' %}" class="btn btn-warning btn-sm mt-2 text-white font-weight-bold" style="border-radius: 5px; background-color: #ffbe33; border: none;">
                                     VISIT GUILD CATALOG

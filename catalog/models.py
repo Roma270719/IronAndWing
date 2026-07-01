@@ -19,6 +19,7 @@ class GuildProduct(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
     price = models.PositiveIntegerField()
+    discount_price = models.PositiveIntegerField(blank=True, null=True)
     material_or_element = models.CharField(max_length=50)
     stock = models.PositiveIntegerField()
     stock_change = models.IntegerField(

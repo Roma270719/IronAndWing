@@ -1,16 +1,16 @@
 {% extends 'index.html' %}
 {% load static %}
 
-{% block content %}
-    <!-- slider section -->
+{% block hero_content %}
+        <!-- slider section -->
     <section class="slider_section ">
       <div id="customCarousel1" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             {% for category in categories %}
           <div class="carousel-item {% if forloop.first %}active{% endif %}">
             <div class="container ">
-              <div class="row">
-                <div class="col-md-7 col-lg-6 ">
+              <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-6 text-center">
                   <div class="detail-box">
                     <h1>
                       {{ category.name }}
@@ -30,57 +30,64 @@
           </div>
             {% endfor %}
         </div>
-        <div class="container" id="carousel-controls-container">
-          <ol class="carousel-indicators">
+        <div class="container" id="carousel-controls-container" style="text-align: center;">
+            <ol class="carousel-indicators" style="justify-content: center;">
               {% for category in categories %}
             <li data-target="#customCarousel1" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
               {% endfor %}
-          </ol>
+            </ol>
         </div>
       </div>
 
     </section>
     <!-- end slider section -->
+{% endblock %}
 
-  <!-- offer section -->
+{% block content %}
+<!-- offer section -->
 
-  <section class="offer_section layout_padding-bottom">
-    <div class="offer_container">
-      <div class="container ">
-        <div class="row">
-            {% for product in special_products %}
-          <div class="col-md-6  ">
-            <div class="box ">
-              <div class="img-box">
-                  {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  {% else %}
-                  <img src="images/o1.jpg" alt="Default Image">
-                  {% endif %}
-              </div>
-              <div class="detail-box">
-                <h5>
-                  {{ product.name }}
-                </h5>
-                <h6>
-                  <span>Special</span> Offer
-                </h6>
-                <a href="{% url 'catalog_index' %}?category={{ product.category.slug }}">
-                  Buy Now
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+<section class="offer_section layout_padding-bottom" style="background-color: #222831;">
+  <div class="offer_container">
+    <div class="container">
+      <div class="row">
+          {% for product in special_products %}
+        <div class="col-md-6">
+          <div class="box">
+            <div class="img-box">
+                {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+              <img src="{% static 'images/no-image.jpg' %}" alt="Default Image">
+                {% endif %}
+            </div>
+            <div class="detail-box">
+              <h5>
+                {{ product.name }}
+              </h5>
+              <h6>
+                {% if product.discount_price %}
+                  <span class="old_price">${{ product.price }}</span>
+                  <span class="new_price">${{ product.discount_price }}</span>
+                {% else %}
+                  <span class="new_price">${{ product.price }}</span>
+                {% endif %}
+              </h6>
+              <a href="{% url 'product_detail' product.slug %}">
+                Buy Now
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
                   <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
                 </svg>
-                </a>
-              </div>
+              </a>
             </div>
-          {% endfor %}
           </div>
         </div>
+          {% endfor %}
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- end offer section -->
+<!-- end offer section -->
 
   <!-- about section -->
 
@@ -126,41 +133,58 @@
 
   <!-- end about section -->
 
-  <!-- book section -->
-  <section class="book_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          Contact the Guild
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form_container">
-            <form action="" method="post">
-                {% csrf_token %}
-                {% for field in form %}
-              <div style="margin-bottom: 15px;">
-                  {{ field }}
-              </div>
-                {% endfor %}
-              <div class="btn_box">
-                <button>
-                  Send Message
-                </button>
-              </div>
-            </form>
+<!-- book section -->
+  <section class="book_section layout_padding" style="background-color: #171a1f; color: #ffffff;">    <div class="container">
+    <div class="heading_container">
+      <h2 style="color: #ffffff;">
+        Contact the Guild
+      </h2>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form_container">
+        {% if user.is_authenticated %}
+          <form action="" method="post">
+              {% csrf_token %}
+              {% for field in form %}
+            <div style="margin-bottom: 15px;">
+                {{ field }}
+            </div>
+              {% endfor %}
+            <div class="btn_box">
+              <button>
+                Send Message
+              </button>
+            </div>
+          </form>
+        {% else %}
+          <div class="text-center py-5 px-4 guild_card" style="border-radius: 10px;">
+            <i class="fa fa-lock text-warning mb-3" style="font-size: 2.5rem;"></i>
+            <h5 class="font-weight-bold mb-2" style="color: #ffffff;">Members Only</h5>
+            <p class="mb-4" style="color: rgba(255,255,255,0.6);">
+              Only registered guild members can send messages. Join the guild or sign in to continue.
+            </p>
+            <div class="d-flex justify-content-center" style="gap: 15px;">
+              <a href="{% url 'login' %}" class="btn btn-outline-warning font-weight-bold px-4" style="border-radius: 30px; border-color: #ffbe33; color: #ffbe33;">
+                Sign In
+              </a>
+              <a href="{% url 'register' %}" class="btn btn-warning text-white font-weight-bold px-4" style="background-color: #ffbe33; border: none; border-radius: 30px;">
+                Register
+              </a>
+            </div>
           </div>
+        {% endif %}
         </div>
-        <div class="col-md-6">
-          <div class="map_container ">
-            <div id="googleMap"></div>
-          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="map_container ">
+          <div id="googleMap"></div>
         </div>
       </div>
     </div>
-  </section>
-  <!-- end book section -->
+  </div>
+</section>
+<!-- end book section -->
 
     <script>
   window.addEventListener('load', function() {

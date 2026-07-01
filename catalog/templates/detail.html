@@ -1,7 +1,8 @@
 {% extends 'index.html' %}
 {% load static %}
+{% block hero_class %}sub_page{% endblock %}
 {% block content %}
-<section class="layout_padding">
+<section class="layout_padding profile_section text-white bg-dark">
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6 mb-4 text-center">
@@ -14,22 +15,27 @@
 
             <div class="col-md-6">
                 <div class="heading_container mb-3">
-                    <h2>{{ product.name }}</h2>
+                    <h2 style="color: #ffffff;">{{ product.name }}</h2>
                     <span class="badge badge-warning text-white font-weight-bold px-3 py-2 mb-2" style="background-color: #ffbe33; border-radius: 20px;">
                         {{ product.category.name }}
                     </span>
                 </div>
-                <h3 class="font-weight-bold my-3" style="color: #222831;">
-                    Gold: <span style="color: #ffbe33;">{{ product.price }}</span>
+                <h3 class="font-weight-bold my-3" style="color: #ffffff;">
+                    {% if product.discount_price %}
+                        <span style="text-decoration: line-through; color: rgba(255,255,255,0.4); font-size: 1.3rem; margin-right: 10px;">{{ product.price }}</span>
+                        <span style="color: #ffbe33;">{{ product.discount_price }} Gold</span>
+                    {% else %}
+                        Gold: <span style="color: #ffbe33;">{{ product.price }}</span>
+                    {% endif %}
                 </h3>
-                <p class="text-muted leading-relaxed mb-4">
+                <p style="color: #b0b3b8;" class="leading-relaxed mb-4">
                     {{ product.description }}
                 </p>
-                <div class="card bg-light border-0 p-3 mb-4" style="border-radius: 10px;">
-                    <p class="mb-2"><strong>Forging Material:</strong> <span class="text-dark">{{ product.material_or_element }}</span></p>
-                    <p class="mb-0"><strong>In Armory (Stock):</strong>
+                <div class="p-3 mb-4" style="border-radius: 10px; background-color: #2d3340;">
+                    <p class="mb-2" style="color: #ffffff;"><strong>Forging Material:</strong> {{ product.material_or_element }}</p>
+                    <p class="mb-0" style="color: #ffffff;"><strong>In Armory (Stock):</strong>
                         {% if product.stock > 0 %}
-                            <span class="text-success font-weight-bold">{{ product.stock }} items</span>
+                            <span style="color: #ffbe33; font-weight: bold;">{{ product.stock }} items</span>
                         {% else %}
                             <span class="text-danger font-weight-bold">Out of stock</span>
                         {% endif %}
@@ -52,52 +58,53 @@
 
         <div class="row mt-5">
             <div class="col-12">
-                <h3 class="font-weight-bold mb-4"><i class="fa fa-shield-alt text-warning mr-2"></i>Battle Reviews</h3>
+                <h3 class="font-weight-bold mb-4" style="color: #ffffff;"><i class="fa fa-shield-alt text-warning mr-2"></i>Battle Reviews</h3>
                 {% if reviews %}
                     <div class="list-group">
                         {% for review in reviews %}
-                            <div class="list-group-item list-group-item-action border-0 shadow-sm mb-3 p-4" style="border-radius: 10px;">
+                            <div class="list-group-item border-0 shadow-sm mb-3 p-4" style="border-radius: 10px; background-color: #2d3340; color: #ffffff;">
                                 <div class="d-flex w-100 justify-content-between mb-2">
-                                    <h5 class="mb-1 font-weight-bold text-dark"><i class="fa fa-user text-muted mr-2"></i>{{ review.user.username }}</h5>
-                                    <small class="text-muted">{{ review.created_at|date:"M d, Y" }}</small>
+                                    <h5 class="mb-1 font-weight-bold" style="color: #ffffff;"><i class="fa fa-user mr-2" style="color: #b0b3b8;"></i>{{ review.user.username }}</h5>
+                                    <small style="color: #b0b3b8;">{{ review.created_at|date:"M d, Y" }}</small>
                                 </div>
                                 <div class="text-warning mb-2">
                                     <strong>Rating: {{ review.rating }}/5 ★</strong>
                                 </div>
-                                <p class="mb-1 text-secondary" style="font-style: italic;">"{{ review.review }}"</p>
+                                <p class="mb-1" style="font-style: italic; color: #b0b3b8;">"{{ review.review }}"</p>
                             </div>
                         {% endfor %}
                     </div>
                 {% else %}
-                    <div class="text-center py-4 bg-light rounded" style="border: 1px dashed #dee2e6;">
-                        <p class="text-muted mb-0">No war stories have been written about this weapon yet.</p>
+                    <div class="text-center py-5 px-4 guild_card mb-4" style="border-radius: 10px;">
+                        <i class="fa fa-scroll text-warning mb-3" style="font-size: 2.5rem;"></i>
+                        <h5 class="font-weight-bold mb-2" style="color: #ffffff;">No War Stories Yet</h5>
+                        <p class="mb-0" style="color: rgba(255,255,255,0.6);">
+                            Be the first to share your experience with this weapon.
+                        </p>
                     </div>
                 {% endif %}
-            <div class="card border-0 shadow-sm p-4 mt-4" style="border-radius: 10px;">
-                    <h4 class="font-weight-bold mb-4 text-dark">
+                <div class="border-0 shadow-sm p-4 mt-4" style="border-radius: 10px; background-color: #2d3340;">
+                    <h4 class="font-weight-bold mb-4" style="color: #ffffff;">
                         <i class="fa fa-pen-fancy text-warning mr-2"></i>Leave Your Battle Review
                     </h4>
 
                     {% if request.user.is_authenticated %}
                         <form method="post" action="{% url 'product_detail' slug=product.slug %}">
                             {% csrf_token %}
-
                             <div class="form-group mb-3">
-                                <label for="id_review" class="font-weight-bold text-secondary">Your Battle Experience</label>
+                                <label for="id_review" class="font-weight-bold" style="color: #b0b3b8;">Your Battle Experience</label>
                                 {{ form.review }}
                                 {% if form.review.errors %}
                                     <div class="text-danger small mt-1">{{ form.review.errors }}</div>
                                 {% endif %}
                             </div>
-
                             <div class="form-group mb-4" style="max-width: 200px;">
-                                <label for="id_rating" class="font-weight-bold text-secondary">Rating (1-5 Stars)</label>
+                                <label for="id_rating" class="font-weight-bold" style="color: #b0b3b8;">Rating (1-5 Stars)</label>
                                 {{ form.rating }}
                                 {% if form.rating.errors %}
                                     <div class="text-danger small mt-1">{{ form.rating.errors }}</div>
                                 {% endif %}
                             </div>
-
                             <div class="btn_box">
                                 <button type="submit" class="btn btn-warning text-white font-weight-bold px-4 py-2" style="background-color: #ffbe33; border: none; border-radius: 30px;">
                                     SUBMIT REVIEW
@@ -105,10 +112,20 @@
                             </div>
                         </form>
                     {% else %}
-                        <div class="text-center py-3 bg-light rounded">
-                            <p class="text-muted mb-0">
-                                To leave a review, please <a href="/accounts/login/" class="font-weight-bold" style="color: #ffbe33; text-decoration: none;">Sign In</a> to your guild account.
+                        <div class="text-center py-5 px-4 guild_card" style="border-radius: 10px;">
+                            <i class="fa fa-lock text-warning mb-3" style="font-size: 2.5rem;"></i>
+                            <h5 class="font-weight-bold mb-2" style="color: #ffffff;">Members Only</h5>
+                            <p class="mb-4" style="color: rgba(255,255,255,0.6);">
+                                Only registered guild members can leave battle reviews. Join the guild or sign in to continue.
                             </p>
+                            <div class="d-flex justify-content-center" style="gap: 15px;">
+                                <a href="{% url 'login' %}" class="btn btn-outline-warning font-weight-bold px-4" style="border-radius: 30px; border-color: #ffbe33; color: #ffbe33;">
+                                    Sign In
+                                </a>
+                                <a href="{% url 'register' %}" class="btn btn-warning text-white font-weight-bold px-4" style="background-color: #ffbe33; border: none; border-radius: 30px;">
+                                    Register
+                                </a>
+                            </div>
                         </div>
                     {% endif %}
                 </div>

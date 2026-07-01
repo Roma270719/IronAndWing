@@ -9,11 +9,11 @@ $textCol: #1f1f1f;
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap');
 
 @mixin main-font {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Cinzel', serif;
 }
 
 @mixin second-font {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Cinzel Decorative', serif;
 }
 
 @mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
@@ -38,7 +38,7 @@ $textCol: #1f1f1f;
 body {
   @include main-font;
   color: #0c0c0c;
-  background-color: #ffffff;
+  background-color: $primary2;
   overflow-x: hidden;
 }
 
@@ -129,34 +129,31 @@ a:focus {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: -1;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(to bottom, rgba(34, 40, 49, 0), #222831 90%);
+  }
 }
 
-.sub_page {
-  .hero_area {
-    min-height: auto;
+.hero_area.sub_page {
+  min-height: auto;
 
-    .bg-box {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: right top;
-      }
-    }
+  .bg-box {
+    display: none;
   }
-
 }
 
 .header_section {
@@ -182,11 +179,10 @@ a:focus {
   padding: 0;
 
   .navbar-nav {
-    padding-left: 18%;
 
     .nav-item {
       .nav-link {
-        padding: 5px 20px;
+        padding: 5px 10px;
         color: $white;
         text-align: center;
         text-transform: uppercase;
@@ -323,7 +319,7 @@ a:focus {
   display: flex;
   align-items: center;
   position: relative;
-  padding: 45px 0 75px 0;
+  padding: 0 0 75px 0;
 
   .row {
     align-items: center;
@@ -336,7 +332,9 @@ a:focus {
 
   .detail-box {
     color: $white;
-    margin-bottom: 145px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: center;
 
     h1 {
       font-size: 3.5rem;
@@ -345,7 +343,7 @@ a:focus {
     }
 
     p {
-      font-size: 14px;
+      font-size: 18px;
     }
 
     a {
@@ -410,11 +408,15 @@ a:focus {
       position: relative;
       transition: all 1.5s;
       border-radius: 100%;
-      border: 5px solid $primary1;
+      border: none;
       overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
 
       img {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
         transition: all .2s;
       }
     }
@@ -423,17 +425,31 @@ a:focus {
 
       h5 {
         @include second-font();
-        font-size: 24px;
-        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: none;
+        margin: 0 0 8px 0;
+        color: rgba($white, 0.85);
       }
 
       h6 {
         @include second-font();
         margin: 10px 0;
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
 
-        span {
-          font-size: 2.5rem;
-          font-weight: bold
+        .old_price {
+          font-size: 1.1rem;
+          font-weight: 400;
+          text-decoration: line-through;
+          color: rgba($white, 0.45);
+        }
+
+        .new_price {
+          font-size: 2.2rem;
+          font-weight: bold;
+          color: $primary1;
         }
       }
 
@@ -486,6 +502,28 @@ a:focus {
       &.active {
         background-color: $primary2;
         color: $white;
+      }
+    }
+  }
+
+  .catalog_filters {
+    .filter-link {
+      display: inline-block;
+      color: $white;
+      margin: 0 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s;
+
+      &:hover {
+        color: $primary1;
+      }
+
+      &.active {
+        color: $primary1;
+        border-bottom-color: $primary1;
       }
     }
   }
@@ -561,7 +599,22 @@ a:focus {
         }
       }
     }
-  }
+
+    &.catalog_card {
+        background: $primary2;
+        .img-box {
+          background: $primary2;
+          height: 230px;
+          border-radius: 0;
+          padding: 20px;
+
+          img {
+            max-height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
+    }
 
   .btn-box {
     display: flex;
@@ -570,6 +623,28 @@ a:focus {
 
     a {
       @include hero_btn($primary1, $white, 10px, 55px, 45px);
+    }
+  }
+
+    @keyframes cardFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+.catalog_card-wrap {
+    opacity: 0;
+    animation: cardFadeInUp 0.6s ease forwards;
+
+    @for $i from 1 through 12 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.07}s;
+      }
     }
   }
 }
@@ -656,6 +731,43 @@ a:focus {
     }
   }
 
+  .form_container.form_container-dark {
+    .form-control {
+      background-color: rgba(0, 0, 0, 0.3) !important;
+      color: $white !important;
+      border: 1px solid rgba($white, 0.15) !important;
+
+      &::placeholder {
+        color: rgba($white, 0.5);
+      }
+    }
+
+    select option {
+      background-color: #171a1f;
+      color: $white;
+    }
+  }
+
+    .nice-select {
+      .list {
+        background-color: #171a1f;
+        border: 1px solid rgba($white, 0.1);
+      }
+
+      .option {
+        color: $white !important;
+        background-color: #171a1f;
+
+        &:hover,
+        &.focus,
+        &.selected.focus {
+          background-color: rgba($primary1, 0.15);
+          color: $white !important;
+        }
+      }
+    }
+
+
   .map_container {
     width: 100%;
     height: 345px;
@@ -673,6 +785,46 @@ a:focus {
 
 // end book section
 
+.profile_section {
+  min-height: 80vh;
+
+  .guild_card {
+    background-color: $primary2;
+    border: 1px solid rgba($primary1, 0.2);
+    border-radius: 10px;
+    color: $white;
+
+    h4, h6 {
+      color: $white;
+    }
+
+    .table {
+      color: $white;
+
+      thead th {
+        border: none;
+      }
+
+      td, th {
+        border-color: rgba($white, 0.1);
+        vertical-align: middle;
+      }
+
+      tbody tr:nth-of-type(odd) {
+        background-color: rgba($white, 0.03);
+      }
+
+      tbody tr:hover {
+        background-color: rgba($primary1, 0.07);
+      }
+    }
+  }
+
+  .guild_card-empty {
+    border: 2px dashed rgba($white, 0.15) !important;
+    color: rgba($white, 0.6);
+  }
+}
 
 /* client section start */
 
