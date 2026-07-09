@@ -5,7 +5,7 @@
         <div class="col-md-4 footer-col">
           <div class="footer_contact">
             <h4>
-              Guild Outpost
+              {{ about_info.footer_one }}
             </h4>
             <div class="contact_link_box">
                 <div class="contact_item">
@@ -26,21 +26,20 @@
         <div class="col-md-4 footer-col">
           <div class="footer_detail">
             <a href="" class="footer-logo">
-              Royal Armory Guild
+              {{ navbar.name }}
             </a>
-            <p>
-                The premier order of master blacksmiths, crafting legendary steel, heavy plate armor, and reinforced shields for the realm's finest defenders</p>
+            <p>{{ about_info.footer_text }}</p>
           </div>
         </div>
         <div class="col-md-4 footer-col">
           <h4>
-            Forge Schedule
+            {{ about_info.footer_three }}
           </h4>
           <p>
-            The Anvil Rings Daily
+            {{ about_info.footer_work }}
           </p>
           <p>
-            10.00 Am -10.00 Pm
+            {{ about_info.footer_time }}
           </p>
         </div>
           <div style="display: none;"><span id="displayYear"></span></div>

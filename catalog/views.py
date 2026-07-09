@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, GuildProduct, BattleReview
+from .models import Category, GuildProduct, BattleReview, CheckoutHeadline
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from user_profile.models import SupplyOrder
 from .forms import CaravanOrderForm, BattleReviewForm
+from urllib.parse import urlparse
+from django.views.decorators.http import require_POST
+
 
 # Create your views here.
 def catalog_index(request):
@@ -28,11 +31,12 @@ def catalog_index(request):
 
     context = {'categories': categories,
                'products': products,
-               'search_query': query
+               'search_query': query,
                }
     return render(request, 'catalog.html', context=context)
 
 
+@require_POST
 def add_to_cart(request, product_id):
     cart = request.session.get('cart', {})
     product_id_str = str(product_id)
@@ -44,9 +48,13 @@ def add_to_cart(request, product_id):
     request.session['cart'] = cart
     request.session.modified = True
 
-    return redirect(request.META.get('HTTP_REFERER', 'catalog_index'))
+    referer = request.META.get('HTTP_REFERER', '')
+    if urlparse(referer).netloc == request.get_host():
+        return redirect(referer)
+    return redirect('catalog_index')
 
 
+@require_POST
 def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})
     product_id_str = str(product_id)
@@ -56,7 +64,10 @@ def remove_from_cart(request, product_id):
         request.session['cart'] = cart
         request.session.modified = True
 
-    return redirect(request.META.get('HTTP_REFERER', 'catalog_index'))
+    referer = request.META.get('HTTP_REFERER', '')
+    if urlparse(referer).netloc == request.get_host():
+        return redirect(referer)
+    return redirect('catalog_index')
 
 
 def product_detail(request, slug):
@@ -88,6 +99,8 @@ def checkout_view(request):
     if not cart:
         return redirect('catalog_index')
 
+    checkout_headline = CheckoutHeadline.objects.first()
+
     if request.method == 'POST':
         form = CaravanOrderForm(request.POST)
         if form.is_valid():
@@ -118,4 +131,9 @@ def checkout_view(request):
     else:
         form = CaravanOrderForm()
 
-    return render(request, 'checkout.html', {'form': form})
+    context = {
+        'form': form,
+        'checkout_headline': checkout_headline,
+    }
+
+    return render(request, 'checkout.html', context=context)

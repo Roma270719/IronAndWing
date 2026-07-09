@@ -1,8 +1,14 @@
 from django.contrib import admin, messages
-from .models import Category, GuildProduct, BattleReview
+from .models import Category, GuildProduct, BattleReview, CheckoutHeadline
 from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
+
+
+@admin.register(CheckoutHeadline)
+class CheckoutHeadlineAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_editable = ('name',)
 
 
 @admin.register(Category)

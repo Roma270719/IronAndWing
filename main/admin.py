@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import AboutInfo, Feedback
+from .models import AboutInfo, Feedback, Navbar
+
+
+@admin.register(Navbar)
+class NavbarAdmin(admin.ModelAdmin):
+    list_display = ('name', 'main', 'catalog', 'info', 'custom')
 
 @admin.register(AboutInfo)
 class AboutInfoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'text_preview', 'phone', 'email')
+    list_display = ('id', 'headline', 'text_preview', 'footer_one', 'phone', 'email', 'footer_text', 'footer_three', 'footer_work', 'footer_time')
 
     def text_preview(self, obj):
         return obj.text[:50] + "..." if len(obj.text) > 50 else obj.text
@@ -17,8 +22,8 @@ class AboutInfoAdmin(admin.ModelAdmin):
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'email', 'is_processed', 'created_at', 'updated_at')
+    list_display = ('id', 'headline', 'name', 'email', 'is_processed', 'created_at', 'updated_at')
     list_filter = ('is_processed', 'created_at')
     search_fields = ('name', 'email', 'message')
-    list_editable = ('is_processed',)
+    list_editable = ('headline', 'is_processed',)
     readonly_fields = ('created_at', 'updated_at')
