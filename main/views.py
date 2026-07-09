@@ -14,11 +14,13 @@ def main_index(request):
     else:
         form = FeedbackForm()
 
+    about_info = AboutInfo.objects.first()
     special_products = GuildProduct.objects.filter(is_special=True).order_by('-id')[:4]
     categories = Category.objects.all()
     context = {
         'special_products': special_products,
         'categories': categories,
         'form': form,
+        'about_info': about_info,
     }
     return render(request, 'home.html', context=context)
