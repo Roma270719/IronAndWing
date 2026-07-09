@@ -8,7 +8,6 @@ from django.http import HttpResponseRedirect
 @admin.register(CheckoutHeadline)
 class CheckoutHeadlineAdmin(admin.ModelAdmin):
     list_display = ('name',)
-    list_editable = ('name',)
 
 
 @admin.register(Category)
