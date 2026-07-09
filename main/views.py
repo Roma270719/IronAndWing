@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from catalog.models import GuildProduct, Category
-from .models import AboutInfo
+from .models import Feedback
 from .forms import FeedbackForm
 
 
@@ -14,13 +14,13 @@ def main_index(request):
     else:
         form = FeedbackForm()
 
-    about_info = AboutInfo.objects.first()
+    feed_back = Feedback.objects.first()
     special_products = GuildProduct.objects.filter(is_special=True).order_by('-id')[:4]
     categories = Category.objects.all()
     context = {
         'special_products': special_products,
         'categories': categories,
         'form': form,
-        'about_info': about_info,
+        'feed_back': feed_back,
     }
     return render(request, 'home.html', context=context)
